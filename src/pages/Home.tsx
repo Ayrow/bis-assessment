@@ -33,6 +33,7 @@ const Home = () => {
 
   const { isModalOpen } = useAppSelector((store) => store.modal);
 
+  // Filtering courses based on the search input
   const filteredData = allUsers?.filter((item) => {
     const nameMatch = item.name
       .toLowerCase()

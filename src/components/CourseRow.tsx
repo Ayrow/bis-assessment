@@ -5,8 +5,18 @@ import { Link } from 'react-router-dom';
 const CourseRow = (course: ICourse) => {
   const { passmarks, certificate, classcode, classid, classname, marks } =
     course;
+
+  const checkIfFailedCourse = () => {
+    if (passmarks > marks) {
+      return 'bg-red-800';
+    } else {
+      return 'bg-green-800';
+    }
+  };
+
   return (
-    <div className='grid grid-cols-6 gap-5 border p-5 rounded-lg'>
+    <div
+      className={`${checkIfFailedCourse()} grid grid-cols-6 gap-5 border p-5 rounded-lg`}>
       <p>{classid}</p>
       <p>{classcode}</p>
       <p>{classname}</p>

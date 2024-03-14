@@ -16,6 +16,7 @@ const SingleUser = () => {
   const { id } = useParams();
   const [userCourses, setUserCourses] = useState<ICourse[] | null>(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
 
   const getUserCourses = async () => {
     setIsFetching(true);
@@ -34,6 +35,23 @@ const SingleUser = () => {
     setIsFetching(false);
   };
 
+  // Filtering courses based on the search input
+  const filteredCourses = userCourses?.filter((item) => {
+    const classnameMatch = item.classname
+      .toLowerCase()
+      .includes(searchInput.toLowerCase());
+
+    const classcodeMatch = item.classcode
+      .toLowerCase()
+      .includes(searchInput.toLowerCase());
+
+    return classnameMatch || classcodeMatch;
+  });
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
   useEffect(() => {
     getUserCourses();
   }, []);
@@ -50,6 +68,17 @@ const SingleUser = () => {
         <p>Fetching ...</p>
       ) : (
         <>
+          {/* Search course input */}
+          <div className='my-5 flex flex-col gap-2 items-start'>
+            <label className='font-bold'>Find a course</label>
+            <input
+              type='text'
+              className='py-1 px-2 bg-gray-600 rounded-lg'
+              placeholder='Search...'
+              value={searchInput}
+              onChange={handleSearch}
+            />
+          </div>
           {/* Header for the grid */}
           <div className='grid grid-cols-6 font-bold gap-5 p-5'>
             <p>Id</p>
@@ -62,9 +91,13 @@ const SingleUser = () => {
 
           {/* Course list */}
           <div className='flex flex-col gap-2'>
-            {userCourses?.map((course, index) => {
-              return <CourseRow key={index} {...course} />;
-            })}
+            {userCourses && filteredCourses && filteredCourses.length > 1 ? (
+              filteredCourses?.map((course, index) => {
+                return <CourseRow key={index} {...course} />;
+              })
+            ) : (
+              <p>No course found</p>
+            )}
           </div>
         </>
       )}
