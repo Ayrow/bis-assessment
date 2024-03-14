@@ -53,28 +53,40 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='p-10'>
+    <div className=''>
       {isModalOpen && <EditUserModal />}
       {isFetching ? (
         <p>Loading ...</p>
       ) : (
         <div>
-          <h1 className='text-2xl my-5 text-center'>Manage users</h1>
+          <div className='p-10'>
+            <h1 className='text-2xl my-5 text-center'>Manage users</h1>
 
-          {/* input to filter users */}
-          <div className='my-5 flex flex-col gap-2 items-start'>
-            <label className='font-bold'>Filter users</label>
-            <input
-              type='text'
-              className='py-1 px-2 bg-gray-600 rounded-lg'
-              placeholder='Search...'
-              value={searchInput}
-              onChange={handleSearch}
-            />
+            {/* input to filter users */}
+            <div className='my-5 flex flex-col gap-2 items-start'>
+              <label className='font-bold'>Filter users</label>
+              <input
+                type='text'
+                className='py-1 px-2 bg-gray-200 rounded-lg'
+                placeholder='Search...'
+                value={searchInput}
+                onChange={handleSearch}
+              />
+            </div>
+          </div>
+
+          {/* Header list */}
+          <div className=' grid grid-cols-6 bg-gray-400 border-b-2 border-gray-500 p-5 text-lg'>
+            <p>Id</p>
+            <p>Username</p>
+            <p>Name</p>
+            <p>Email</p>
+            <p>Address</p>
+            <p></p>
           </div>
 
           {/* Mapping all users */}
-          <div className='flex flex-col gap-5 mt-5'>
+          <div className='flex flex-col'>
             {users && filteredData && filteredData?.length > 1 ? (
               filteredData
                 .sort((a, b) => a.id > b.id)

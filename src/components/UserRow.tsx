@@ -9,7 +9,7 @@ const UserRow = (user: IUser) => {
 
   return (
     <>
-      <div className='grid grid-cols-6 border px-5 py-5 rounded-lg'>
+      <div className='grid grid-cols-6 border-b border-gray-400 px-5 py-5 hover:bg-gray-200'>
         <p className='flex items-center'>{id}</p>
         <p className='flex items-center'>{username}</p>
         <p className='flex items-center'>{name}</p>

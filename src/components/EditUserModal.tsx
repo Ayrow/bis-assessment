@@ -60,7 +60,7 @@ const EditUserModal = () => {
     <Transition.Root show={isModalOpen} as={Fragment}>
       <Dialog
         as='div'
-        className='relative z-20'
+        className='relative z-20 text-white'
         // initialFocus={cancelButtonRef}
         onClose={() => dispatch(closeModal())}>
         <Transition.Child
@@ -87,7 +87,7 @@ const EditUserModal = () => {
               <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-gray-darker text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
                 <form
                   onSubmit={handleSubmit(handleUpdateUser)}
-                  className=' bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
+                  className=' bg-gray-600 px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
                   <div className='sm:flex sm:items-start'>
                     <div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left'>
                       <Dialog.Title
@@ -103,7 +103,7 @@ const EditUserModal = () => {
                             <div>
                               <input
                                 {...register('email')}
-                                className='px-2 rounded-lg'
+                                className='px-2 rounded-lg bg-gray-200 text-black'
                               />
                             </div>
                           </div>
@@ -123,7 +123,7 @@ const EditUserModal = () => {
                             <div>
                               <input
                                 {...register('username')}
-                                className='px-2 rounded-lg'
+                                className='px-2 rounded-lg bg-gray-200 text-black'
                               />
                             </div>
                           </div>

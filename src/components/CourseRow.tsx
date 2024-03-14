@@ -8,15 +8,15 @@ const CourseRow = (course: ICourse) => {
 
   const checkIfFailedCourse = () => {
     if (passmarks > marks) {
-      return 'bg-red-800';
+      return 'bg-red-800 hover:bg-red-700';
     } else {
-      return 'bg-green-800';
+      return 'bg-green-800 hover:bg-green-700';
     }
   };
 
   return (
     <div
-      className={`${checkIfFailedCourse()} grid grid-cols-6 gap-5 border p-5 rounded-lg`}>
+      className={`${checkIfFailedCourse()} grid grid-cols-6 gap-5 p-5 text-white border-b border-gray-400`}>
       <p>{classid}</p>
       <p>{classcode}</p>
       <p>{classname}</p>

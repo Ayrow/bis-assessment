@@ -53,7 +53,7 @@ const SingleUser = () => {
     <div className='p-10'>
       <Link
         to={'/'}
-        className='bg-blue-500 hover:bg-blue-300 px-2 py-1 rounded-lg mb-10 flex items-center gap-2 w-24'>
+        className='bg-blue-500 hover:bg-blue-300 px-2 py-1 rounded-lg mb-10 flex items-center gap-2 w-24 text-white'>
         <ArrowLeftCircleIcon className='h-5 w-5' />
         Back
       </Link>
@@ -64,9 +64,10 @@ const SingleUser = () => {
           {/* Search course input */}
           <div className='my-5 flex flex-col gap-2 items-start'>
             <label className='font-bold'>Find a course</label>
+
             <input
               type='text'
-              className='py-1 px-2 bg-gray-600 rounded-lg'
+              className='py-1 px-2 bg-gray-200 rounded-lg'
               placeholder='Search...'
               value={searchInput}
               onChange={handleSearch}
@@ -83,7 +84,7 @@ const SingleUser = () => {
           </div>
 
           {/* Course list */}
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col'>
             {userCourses && filteredCourses && filteredCourses.length > 1 ? (
               filteredCourses?.map((course, index) => {
                 return <CourseRow key={index} {...course} />;
