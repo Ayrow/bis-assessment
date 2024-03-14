@@ -9,6 +9,8 @@ const Home = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [searchInput, setSearchInput] = useState('');
 
+  const { isModalOpen } = useAppSelector((store) => store.modal);
+
   const getAllUsers = async () => {
     setIsFetching(true);
     try {
@@ -30,9 +32,6 @@ const Home = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
-
-  const { isModalOpen } = useAppSelector((store) => store.modal);
-
   // Filtering courses based on the search input
   const filteredData = allUsers?.filter((item) => {
     const nameMatch = item.name

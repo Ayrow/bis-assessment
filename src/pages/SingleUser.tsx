@@ -35,22 +35,15 @@ const SingleUser = () => {
     setIsFetching(false);
   };
 
-  // Filtering courses based on the search input
-  const filteredCourses = userCourses?.filter((item) => {
-    const classnameMatch = item.classname
-      .toLowerCase()
-      .includes(searchInput.toLowerCase());
-
-    const classcodeMatch = item.classcode
-      .toLowerCase()
-      .includes(searchInput.toLowerCase());
-
-    return classnameMatch || classcodeMatch;
-  });
-
+  // Handles search input for a class
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
+
+  // Filtering courses based on the search input
+  const filteredCourses = userCourses?.filter((item) => {
+    return item.classcode.toLowerCase().includes(searchInput.toLowerCase());
+  });
 
   useEffect(() => {
     getUserCourses();
