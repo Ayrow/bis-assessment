@@ -48,6 +48,7 @@ const EditUserModal = () => {
           username: data.username,
         };
         dispatch(updateUser(newUserData));
+        dispatch(closeModal());
       }
     } catch (error) {
       console.log('error', error);
