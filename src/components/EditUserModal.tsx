@@ -6,6 +6,7 @@ import { Fragment } from 'react/jsx-runtime';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { closeModal } from '../features/modal/modalSlice';
 import { useState } from 'react';
+import { IUser, updateUser } from '../features/users/usersSlice';
 
 const EditUserModal = () => {
   const { userToEdit, isModalOpen } = useAppSelector((store) => store.modal);
@@ -27,13 +28,26 @@ const EditUserModal = () => {
   const handleUpdateUser = async (data: UserUpdate) => {
     setIsLoading(true);
     try {
-      const res = await fetch(`input api url here`, {
-        method: 'PATCH',
-        body: JSON.stringify(data),
-      });
-      if (res.ok) {
-        await res.json();
-        // display success message
+      // const res = await fetch(`input api url here`, {
+      //   method: 'PATCH',
+      //   body: JSON.stringify(data),
+      // });
+      // if (res.ok) {
+      //   await res.json();
+      //   // display success message
+      // }
+      if (userToEdit) {
+        const newUserData: IUser = {
+          id: userToEdit.id,
+          name: userToEdit.name,
+          role: userToEdit.role,
+          address: userToEdit.address,
+          city: userToEdit.city,
+          phone: userToEdit.phone,
+          email: data.email,
+          username: data.username,
+        };
+        dispatch(updateUser(newUserData));
       }
     } catch (error) {
       console.log('error', error);

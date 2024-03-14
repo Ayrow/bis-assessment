@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import UserRow from '../components/UserRow';
-import { IUser } from '../features/user/userSlice';
+import { IUser, setUsers } from '../features/users/usersSlice';
 import EditUserModal from '../components/EditUserModal';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 const Home = () => {
-  const [allUsers, setAllUsers] = useState<IUser[] | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [searchInput, setSearchInput] = useState('');
 
   const { isModalOpen } = useAppSelector((store) => store.modal);
+  const { users } = useAppSelector((store) => store.users);
+  const dispatch = useAppDispatch();
 
   const getAllUsers = async () => {
     setIsFetching(true);
@@ -20,8 +21,7 @@ const Home = () => {
       if (res.ok) {
         console.log('res', res);
         const { users }: { users: IUser[] } = await res.json();
-
-        setAllUsers(users);
+        dispatch(setUsers(users));
       }
     } catch (error) {
       console.log('error', error);
@@ -33,8 +33,8 @@ const Home = () => {
     setSearchInput(e.target.value);
   };
   // Filtering courses based on the search input
-  const filteredData = allUsers?.filter((item) => {
-    const nameMatch = item.name
+  const filteredData = users?.filter((item) => {
+    const nameMatch = item?.name
       .toLowerCase()
       .includes(searchInput.toLowerCase());
     const emailMatch = item.email
@@ -47,7 +47,9 @@ const Home = () => {
   });
 
   useEffect(() => {
-    getAllUsers();
+    if (!users) {
+      getAllUsers();
+    }
   }, []);
 
   return (
@@ -73,10 +75,12 @@ const Home = () => {
 
           {/* Mapping all users */}
           <div className='flex flex-col gap-5 mt-5'>
-            {allUsers && filteredData && filteredData?.length > 1 ? (
-              filteredData?.map((user) => {
-                return <UserRow key={user.id} {...user} />;
-              })
+            {users && filteredData && filteredData?.length > 1 ? (
+              filteredData
+                .sort((a, b) => a.id > b.id)
+                ?.map((user) => {
+                  return <UserRow key={user.id} {...user} />;
+                })
             ) : (
               <p>No user found. Please try a different search</p>
             )}

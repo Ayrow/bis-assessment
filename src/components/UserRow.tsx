@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { IUser } from '../features/user/userSlice';
+import { IUser } from '../features/users/usersSlice';
 import { useAppDispatch } from '../../hooks';
 import { openModal } from '../features/modal/modalSlice';
 

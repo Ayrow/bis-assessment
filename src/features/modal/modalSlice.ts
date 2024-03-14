@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IUser } from '../user/userSlice';
+import { IUser } from '../users/usersSlice';
 
 interface IInitialState {
   isModalOpen: boolean;
