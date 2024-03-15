@@ -19,7 +19,7 @@ const UserRow = (user: IUser) => {
           <p className=''>{address}</p>
         </div>
         {/* Buttons to edit user and see courses */}
-        <div className='flex flex-col items-center gap-2'>
+        <div className='flex flex-col items-center gap-2 text-white'>
           <button
             type='button'
             onClick={() => dispatch(openModal(user))}

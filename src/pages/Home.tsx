@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import UserRow from '../components/UserRow';
 import { IUser, setUsers } from '../features/users/usersSlice';
 import EditUserModal from '../components/EditUserModal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import UsersList from '../components/UsersList';
 
 const Home = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [searchInput, setSearchInput] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
 
   const { isModalOpen } = useAppSelector((store) => store.modal);
   const { users } = useAppSelector((store) => store.users);
@@ -32,19 +33,20 @@ const Home = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
-  // Filtering courses based on the search input
-  const filteredData = users?.filter((item) => {
-    const nameMatch = item?.name
-      .toLowerCase()
-      .includes(searchInput.toLowerCase());
-    const emailMatch = item.email
-      .toLowerCase()
-      .includes(searchInput.toLowerCase());
-    const usernameMatch = item.username
-      .toLowerCase()
-      .includes(searchInput.toLowerCase());
-    return nameMatch || emailMatch || usernameMatch;
-  });
+
+  const goPreviousPage = () => {
+    if (pageNumber !== 1) {
+      setPageNumber(pageNumber - 1);
+    }
+  };
+
+  const goNextPage = () => {
+    setPageNumber(pageNumber + 1);
+  };
+
+  const goToPageNumber = (arg: number) => {
+    setPageNumber(arg);
+  };
 
   useEffect(() => {
     if (!users) {
@@ -89,12 +91,15 @@ const Home = () => {
 
           {/* Mapping all users */}
           <div className='flex flex-col'>
-            {users && filteredData && filteredData?.length > 0 ? (
-              filteredData
-                .sort((a, b) => a.id > b.id)
-                ?.map((user) => {
-                  return <UserRow key={user.id} {...user} />;
-                })
+            {users ? (
+              <UsersList
+                users={users}
+                searchInput={searchInput}
+                pageNumber={pageNumber}
+                goPreviousPage={goPreviousPage}
+                goNextPage={goNextPage}
+                goToPageNumber={goToPageNumber}
+              />
             ) : (
               <p>No user found. Please try a different search</p>
             )}
