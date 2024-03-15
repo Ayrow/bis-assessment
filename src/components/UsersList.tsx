@@ -52,14 +52,17 @@ const UsersList = ({
           return <UserRow key={user.id} {...user} />;
         })}
       {/* Pagination controls */}
-      <div className='flex gap-5 m-5 w-1/3'>
-        {pageNumber > 1 && (
+      <div className=' flex justify-center gap-5 m-5'>
+        {pageNumber > 1 ? (
           <button
             type='button'
             className='bg-orange-500 hover:bg-orange-300 px-2 rounded-lg text-white'
             onClick={goPreviousPage}>
             Previous
           </button>
+        ) : (
+          // empty space to not move buttons around when disappearing
+          <div className='w-20 '></div>
         )}
         {totalPages > 1 && (
           <div className='flex gap-2'>
@@ -77,13 +80,16 @@ const UsersList = ({
             ))}
           </div>
         )}
-        {pageNumber < totalPages && (
+        {pageNumber < totalPages ? (
           <button
             type='button'
             className='bg-orange-500 hover:bg-orange-300 px-2 rounded-lg text-white'
             onClick={goNextPage}>
             Next
           </button>
+        ) : (
+          // empty space to not move buttons around when disappearing
+          <div className='w-12 '></div>
         )}
       </div>
     </div>
