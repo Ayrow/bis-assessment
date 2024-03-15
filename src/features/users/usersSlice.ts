@@ -28,13 +28,16 @@ const usersSlice = createSlice({
     },
     // Some workaround to update the list
     updateUser: (state, action: PayloadAction<IUser>) => {
-      const newList = state.users?.filter(
-        (user) => user.id !== action.payload.id
-      );
-      state.users = [...(newList || []), action.payload];
-    },
+      state.users =
+        state.users?.map((item) => {
+          if (item.id === action.payload.id) {
+            return action.payload;
+          }
+          return item;
+        }) ?? [];
 
-    // updateUser: (state, action: PayloadAction<IUser>) => {},
+      // state.users = newList ?? [];
+    },
   },
 });
 
