@@ -36,6 +36,9 @@ export const UpdateUserSchema = z.object({
     }),
   city: z.string().trim(),
   address: z.string().trim(),
+  phone: z.string().trim(),
+  role: z.string().trim(),
+  id: z.number(),
 });
 
 export type UserUpdate = z.infer<typeof UpdateUserSchema>;

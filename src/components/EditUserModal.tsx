@@ -21,21 +21,24 @@ const EditUserModal = () => {
   } = useForm<UserUpdate>({
     resolver: zodResolver(UpdateUserSchema),
     defaultValues: {
+      id: userToEdit?.id || 1,
       email: userToEdit?.email || '',
       username: userToEdit?.username || '',
       name: userToEdit?.name || '',
       city: userToEdit?.city || '',
       address: userToEdit?.address || '',
+      phone: userToEdit?.phone || '',
+      role: userToEdit?.role || '',
     },
   });
 
-  const areObjectsDifferent = (obj1: any, obj2: any) => {
+  const areObjectsDifferent = (obj1: IUser, obj2: IUser) => {
     // Get the keys of both objects
     const keys = Object.keys(obj1);
 
     // Iterate through keys and recursively compare values. Return true if a value is different
     for (const key of keys) {
-      if (obj1[key] !== obj2[key]) {
+      if (obj1[key as keyof IUser] !== obj2[key as keyof IUser]) {
         return true;
       }
     }
@@ -45,7 +48,7 @@ const EditUserModal = () => {
   };
 
   const handleUpdateUser = async (data: UserUpdate) => {
-    if (areObjectsDifferent(data, userToEdit)) {
+    if (userToEdit && areObjectsDifferent(data, userToEdit)) {
       setIsLoading(true);
       try {
         // const res = await fetch(`input api url here`, {
