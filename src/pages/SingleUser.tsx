@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CourseRow from '../components/CourseRow';
 import { ArrowLeftCircleIcon } from '@heroicons/react/20/solid';
+import UserRowSkeleton from '../components/UserRowSkeleton';
+import CourseRowSkeleton from '../components/CourseRowSkeleton';
 
 export interface ICourse {
   certificate: string;
@@ -59,45 +61,48 @@ const SingleUser = () => {
           Back
         </Link>
       </div>
+
+      {/* Search course input */}
+      <div className='p-10 flex flex-col gap-2 items-start'>
+        <label className='font-bold'>Find a course</label>
+
+        <input
+          type='text'
+          className='py-1 px-2 bg-gray-200 rounded-lg'
+          placeholder='Search...'
+          value={searchInput}
+          onChange={handleSearch}
+        />
+      </div>
+      {/* Header for the grid */}
+      <div className='grid grid-cols-6 bg-gray-200 font-bold gap-5 p-5'>
+        <p>Id</p>
+        <p>Classcode</p>
+        <p>ClassName</p>
+        <p>Passmark</p>
+        <p>Mark</p>
+        <p>Certificate</p>
+      </div>
+
+      {/* Course list */}
       {isFetching ? (
-        <div className='flex justify-center items-center'>
-          <p>Fetching ...</p>
+        <div className='flex flex-col'>
+          <CourseRowSkeleton />
+          <CourseRowSkeleton />
+          <CourseRowSkeleton />
+          <CourseRowSkeleton />
+          <CourseRowSkeleton />
         </div>
       ) : (
-        <>
-          {/* Search course input */}
-          <div className='p-10 flex flex-col gap-2 items-start'>
-            <label className='font-bold'>Find a course</label>
-
-            <input
-              type='text'
-              className='py-1 px-2 bg-gray-200 rounded-lg'
-              placeholder='Search...'
-              value={searchInput}
-              onChange={handleSearch}
-            />
-          </div>
-          {/* Header for the grid */}
-          <div className='grid grid-cols-6 bg-gray-200 font-bold gap-5 p-5'>
-            <p>Id</p>
-            <p>Classcode</p>
-            <p>ClassName</p>
-            <p>Passmark</p>
-            <p>Mark</p>
-            <p>Certificate</p>
-          </div>
-
-          {/* Course list */}
-          <div className='flex flex-col'>
-            {userCourses && filteredCourses && filteredCourses.length > 0 ? (
-              filteredCourses?.map((course, index) => {
-                return <CourseRow key={index} {...course} />;
-              })
-            ) : (
-              <p>No course found</p>
-            )}
-          </div>
-        </>
+        <div className='flex flex-col'>
+          {userCourses && filteredCourses && filteredCourses.length > 0 ? (
+            filteredCourses?.map((course, index) => {
+              return <CourseRow key={index} {...course} />;
+            })
+          ) : (
+            <p>No course found</p>
+          )}
+        </div>
       )}
     </>
   );
