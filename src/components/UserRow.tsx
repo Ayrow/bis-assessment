@@ -15,8 +15,8 @@ const UserRow = (user: IUser) => {
         <p className='flex items-center'>{name}</p>
         <p className='flex items-center'>{email}</p>
         <div className='flex flex-col justify-center'>
-          <p className=''>{city}</p>
           <p className=''>{address}</p>
+          <p className=''>{city}</p>
         </div>
         {/* Buttons to edit user and see courses */}
         <div className='flex  items-center gap-2 text-white'>

@@ -23,6 +23,19 @@ export const UpdateUserSchema = z.object({
         });
       }
     }),
+  name: z
+    .string()
+    .trim()
+    .superRefine((value, ctx) => {
+      if (!value) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Name is required',
+        });
+      }
+    }),
+  city: z.string().trim(),
+  address: z.string().trim(),
 });
 
 export type UserUpdate = z.infer<typeof UpdateUserSchema>;

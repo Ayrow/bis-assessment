@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CourseRow from '../components/CourseRow';
 import { ArrowLeftCircleIcon } from '@heroicons/react/20/solid';
-import UserRowSkeleton from '../components/UserRowSkeleton';
 import CourseRowSkeleton from '../components/CourseRowSkeleton';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/16/solid';
 

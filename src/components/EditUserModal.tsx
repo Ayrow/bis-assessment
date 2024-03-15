@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { closeModal } from '../features/modal/modalSlice';
 import { useState } from 'react';
 import { IUser, updateUser } from '../features/users/usersSlice';
+import { ToastTypes, showToast } from '../features/toast/toastSlice';
 
 const EditUserModal = () => {
   const { userToEdit, isModalOpen } = useAppSelector((store) => store.modal);
@@ -22,6 +23,9 @@ const EditUserModal = () => {
     defaultValues: {
       email: userToEdit?.email || '',
       username: userToEdit?.username || '',
+      name: userToEdit?.name || '',
+      city: userToEdit?.city || '',
+      address: userToEdit?.address || '',
     },
   });
 
@@ -39,16 +43,19 @@ const EditUserModal = () => {
       if (userToEdit) {
         const newUserData: IUser = {
           id: userToEdit.id,
-          name: userToEdit.name,
+          name: data.name,
           role: userToEdit.role,
-          address: userToEdit.address,
-          city: userToEdit.city,
+          address: data.address,
+          city: data.city,
           phone: userToEdit.phone,
           email: data.email,
           username: data.username,
         };
         dispatch(updateUser(newUserData));
         dispatch(closeModal());
+        dispatch(
+          showToast({ toastMsg: 'User updated', toastType: ToastTypes.Success })
+        );
       }
     } catch (error) {
       console.log('error', error);
@@ -71,7 +78,7 @@ const EditUserModal = () => {
           leave='ease-in duration-200'
           leaveFrom='opacity-100'
           leaveTo='opacity-0'>
-          <div className='fixed inset-0 bg-black bg-opacity-60 transition-opacity' />
+          <div className='fixed inset-0 bg-black bg-opacity-70 transition-opacity' />
         </Transition.Child>
 
         <div className='fixed inset-0 z-10 overflow-y-auto'>
@@ -84,10 +91,10 @@ const EditUserModal = () => {
               leave='ease-in duration-200'
               leaveFrom='opacity-100 translate-y-0 sm:scale-100'
               leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'>
-              <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-gray-darker text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
+              <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-gray-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
                 <form
                   onSubmit={handleSubmit(handleUpdateUser)}
-                  className=' bg-gray-600 px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
+                  className=' bg-gray-700 px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
                   <div className='sm:flex sm:items-start'>
                     <div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left'>
                       <Dialog.Title
@@ -95,47 +102,115 @@ const EditUserModal = () => {
                         className='text-base font-semibold leading-6 text-white'>
                         Update user: {userToEdit?.username}
                       </Dialog.Title>
-                      <div className='mt-5'>
-                        {/* Input to update username */}
-                        <div className='py-5'>
+
+                      {/* Input fields */}
+                      <div className='mt-8 py-4'>
+                        <div className='text-red-500'> * Required fields</div>
+                        {/* Input to update email */}
+                        <div className='py-5 relative'>
                           <div className='flex items-center gap-5'>
-                            <label className='w-24'>Email</label>
-                            <div>
-                              <input
-                                {...register('email')}
-                                className='px-2 rounded-lg bg-gray-200 text-black'
-                              />
-                            </div>
+                            <label className='w-24'>
+                              Email <span className='text-red-500'>*</span>
+                            </label>
+
+                            <input
+                              {...register('email')}
+                              className='px-2 rounded-lg bg-gray-200 text-black'
+                            />
                           </div>
-                          {errors?.email?.message ? (
-                            <p className='text-red-500 text-sm mt-1'>
-                              {errors?.email?.message}
-                            </p>
-                          ) : (
-                            ''
-                          )}
+                          <div className='absolute'>
+                            {errors?.email?.message ? (
+                              <p className='text-red-500 text-sm mt-1'>
+                                {errors?.email?.message}
+                              </p>
+                            ) : (
+                              ''
+                            )}
+                          </div>
                         </div>
-                        <div className='py-5'>
+                        {/* Input to update username */}
+                        <div className='py-5 relative'>
                           <div className='flex items-center gap-5'>
                             <label htmlFor='' className=' w-24'>
-                              Username
+                              Username <span className='text-red-500'>*</span>
                             </label>
-                            <div>
-                              <input
-                                {...register('username')}
-                                className='px-2 rounded-lg bg-gray-200 text-black'
-                              />
-                            </div>
+
+                            <input
+                              {...register('username')}
+                              className='px-2 rounded-lg bg-gray-200 text-black'
+                            />
                           </div>
-                          {errors?.username?.message ? (
-                            <p className='text-red-500 text-sm mt-1'>
-                              {errors?.username?.message}
-                            </p>
-                          ) : (
-                            <p className='text-sm mt-1'>
-                              Must be at least 5 characters
-                            </p>
-                          )}
+                          <div className='absolute'>
+                            {errors?.username?.message ? (
+                              <p className='text-red-500 text-sm mt-1'>
+                                {errors?.username?.message}
+                              </p>
+                            ) : (
+                              <p className='text-sm mt-1 text-gray-300'>
+                                Must be at least 5 characters
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        {/* Input to update name */}
+                        <div className='py-5 relative'>
+                          <div className='flex items-center gap-5'>
+                            <label htmlFor='' className=' w-24'>
+                              Name <span className='text-red-500'>*</span>
+                            </label>
+
+                            <input
+                              {...register('name')}
+                              className='px-2 rounded-lg bg-gray-200 text-black'
+                            />
+                          </div>
+                          <div className='absolute'>
+                            {errors?.name?.message && (
+                              <p className='text-red-500 text-sm mt-1'>
+                                {errors?.name?.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        {/* Input to update city */}
+                        <div className='py-5 relative'>
+                          <div className='flex items-center gap-5'>
+                            <label htmlFor='' className=' w-24'>
+                              City
+                            </label>
+
+                            <input
+                              {...register('city')}
+                              className='px-2 rounded-lg bg-gray-200 text-black'
+                            />
+                          </div>
+                          <div className='absolute'>
+                            {errors?.city?.message && (
+                              <p className='text-red-500 text-sm mt-1'>
+                                {errors?.city?.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        {/* Input to update address */}
+                        <div className='py-5 relative'>
+                          <div className='flex items-center gap-5'>
+                            <label htmlFor='' className=' w-24'>
+                              Address
+                            </label>
+
+                            <input
+                              {...register('address')}
+                              className='px-2 rounded-lg bg-gray-200 text-black'
+                            />
+                          </div>
+                          <div className='absolute'>
+                            {errors?.address?.message && (
+                              <p className='text-red-500 text-sm mt-1'>
+                                {errors?.address?.message}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -146,7 +221,7 @@ const EditUserModal = () => {
                       disabled={isLoading}
                       className={`${
                         isLoading
-                          ? 'bg-gray-lighter'
+                          ? 'bg-gray-800'
                           : 'bg-green-600 hover:bg-green-500'
                       } 'inline-flex w-auto justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:w-auto'`}>
                       {isLoading ? 'Loading' : 'Save'}
