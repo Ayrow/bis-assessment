@@ -56,7 +56,9 @@ const Home = () => {
     <div className=''>
       {isModalOpen && <EditUserModal />}
       {isFetching ? (
-        <p>Loading ...</p>
+        <div className='h-screen flex justify-center items-center'>
+          <p>Fetching users ...</p>
+        </div>
       ) : (
         <div>
           <div className='p-10'>
@@ -87,7 +89,7 @@ const Home = () => {
 
           {/* Mapping all users */}
           <div className='flex flex-col'>
-            {users && filteredData && filteredData?.length > 1 ? (
+            {users && filteredData && filteredData?.length > 0 ? (
               filteredData
                 .sort((a, b) => a.id > b.id)
                 ?.map((user) => {

@@ -50,19 +50,23 @@ const SingleUser = () => {
   }, []);
 
   return (
-    <div className='p-10'>
-      <Link
-        to={'/'}
-        className='bg-blue-500 hover:bg-blue-300 px-2 py-1 rounded-lg mb-10 flex items-center gap-2 w-24 text-white'>
-        <ArrowLeftCircleIcon className='h-5 w-5' />
-        Back
-      </Link>
+    <>
+      <div className='pt-10 px-10'>
+        <Link
+          to={'/'}
+          className='bg-blue-500 hover:bg-blue-300 px-2 py-1 rounded-lg mb-10 flex items-center gap-2 w-24 text-white'>
+          <ArrowLeftCircleIcon className='h-5 w-5' />
+          Back
+        </Link>
+      </div>
       {isFetching ? (
-        <p>Fetching ...</p>
+        <div className='flex justify-center items-center'>
+          <p>Fetching ...</p>
+        </div>
       ) : (
         <>
           {/* Search course input */}
-          <div className='my-5 flex flex-col gap-2 items-start'>
+          <div className='p-10 flex flex-col gap-2 items-start'>
             <label className='font-bold'>Find a course</label>
 
             <input
@@ -74,7 +78,7 @@ const SingleUser = () => {
             />
           </div>
           {/* Header for the grid */}
-          <div className='grid grid-cols-6 font-bold gap-5 p-5'>
+          <div className='grid grid-cols-6 bg-gray-200 font-bold gap-5 p-5'>
             <p>Id</p>
             <p>Classcode</p>
             <p>ClassName</p>
@@ -85,7 +89,7 @@ const SingleUser = () => {
 
           {/* Course list */}
           <div className='flex flex-col'>
-            {userCourses && filteredCourses && filteredCourses.length > 1 ? (
+            {userCourses && filteredCourses && filteredCourses.length > 0 ? (
               filteredCourses?.map((course, index) => {
                 return <CourseRow key={index} {...course} />;
               })
@@ -95,7 +99,7 @@ const SingleUser = () => {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 export default SingleUser;
