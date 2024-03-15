@@ -4,6 +4,7 @@ import CourseRow from '../components/CourseRow';
 import { ArrowLeftCircleIcon } from '@heroicons/react/20/solid';
 import UserRowSkeleton from '../components/UserRowSkeleton';
 import CourseRowSkeleton from '../components/CourseRowSkeleton';
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/16/solid';
 
 export interface ICourse {
   certificate: string;
@@ -64,15 +65,25 @@ const SingleUser = () => {
 
       {/* Search course input */}
       <div className='p-10 flex flex-col gap-2 items-start'>
-        <label className='font-bold'>Find a course</label>
-
-        <input
-          type='text'
-          className='py-1 px-2 bg-gray-200 rounded-lg'
-          placeholder='Search...'
-          value={searchInput}
-          onChange={handleSearch}
-        />
+        <div className='flex gap-2 items-center'>
+          <input
+            type='text'
+            className='py-1 px-2 bg-gray-200 rounded-lg'
+            placeholder='Find course...'
+            value={searchInput}
+            onChange={handleSearch}
+          />
+          {searchInput ? (
+            <button
+              type='button'
+              className='text-red-500'
+              onClick={() => setSearchInput('')}>
+              <XMarkIcon className='h-8 w-8' />
+            </button>
+          ) : (
+            <MagnifyingGlassIcon className='h-8 w-8' />
+          )}
+        </div>
       </div>
       {/* Header for the grid */}
       <div className='grid grid-cols-6 bg-gray-200 font-bold gap-5 p-5'>

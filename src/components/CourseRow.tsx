@@ -22,9 +22,13 @@ const CourseRow = (course: ICourse) => {
       <p>{classname}</p>
       <p>{passmarks}</p>
       <p>{marks}</p>
-      <Link to={certificate} target='blank'>
-        <StarIcon className='h-6 w-6 clear-start text-orange-500 hover:text-orange-300' />
-      </Link>
+      {passmarks > marks ? (
+        <p>Failed</p>
+      ) : (
+        <Link to={certificate} target='blank'>
+          <StarIcon className='h-7 w-7 clear-start text-orange-500 hover:text-orange-300' />
+        </Link>
+      )}
     </div>
   );
 };

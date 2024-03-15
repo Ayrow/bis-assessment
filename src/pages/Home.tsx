@@ -4,6 +4,7 @@ import EditUserModal from '../components/EditUserModal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import UsersList from '../components/UsersList';
 import UserRowSkeleton from '../components/UserRowSkeleton';
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/16/solid';
 
 const Home = () => {
   const [isFetching, setIsFetching] = useState(false);
@@ -65,14 +66,25 @@ const Home = () => {
 
           {/* input to filter users */}
           <div className='my-5 flex flex-col gap-2 items-start'>
-            <label className='font-bold'>Filter users</label>
-            <input
-              type='text'
-              className='py-1 px-2 bg-gray-200 rounded-lg'
-              placeholder='Search...'
-              value={searchInput}
-              onChange={handleSearch}
-            />
+            <div className='flex gap-2 items-center'>
+              <input
+                type='text'
+                className='py-1 px-2 bg-gray-200 rounded-lg'
+                placeholder='Find users'
+                value={searchInput}
+                onChange={handleSearch}
+              />
+              {searchInput ? (
+                <button
+                  type='button'
+                  className='text-red-500'
+                  onClick={() => setSearchInput('')}>
+                  <XMarkIcon className='h-8 w-8' />
+                </button>
+              ) : (
+                <MagnifyingGlassIcon className='h-8 w-8' />
+              )}
+            </div>
           </div>
         </div>
 
