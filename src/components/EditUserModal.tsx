@@ -29,38 +29,81 @@ const EditUserModal = () => {
     },
   });
 
+  const areObjectsDifferent = (obj1: any, obj2: any) => {
+    // Get the keys of both objects
+    const keys = Object.keys(obj1);
+
+    // Iterate through keys and recursively compare values. Return true if a value is different
+    for (const key of keys) {
+      if (obj1[key] !== obj2[key]) {
+        return true;
+      }
+    }
+
+    // If all checks pass, the objects are considered different
+    return false;
+  };
+
   const handleUpdateUser = async (data: UserUpdate) => {
-    setIsLoading(true);
-    try {
-      // const res = await fetch(`input api url here`, {
-      //   method: 'PATCH',
-      //   body: JSON.stringify(data),
-      // });
-      // if (res.ok) {
-      //   await res.json();
-      //   // display success message
-      // }
-      if (userToEdit) {
-        const newUserData: IUser = {
-          id: userToEdit.id,
-          name: data.name,
-          role: userToEdit.role,
-          address: data.address,
-          city: data.city,
-          phone: userToEdit.phone,
-          email: data.email,
-          username: data.username,
-        };
-        dispatch(updateUser(newUserData));
-        dispatch(closeModal());
+    if (areObjectsDifferent(data, userToEdit)) {
+      setIsLoading(true);
+      try {
+        // const res = await fetch(`input api url here`, {
+        //   method: 'PATCH',
+        //   body: JSON.stringify(data),
+        // });
+        // if (res.ok) {
+        //   await res.json();
+        //   // display success message
+        // }
+        if (userToEdit) {
+          const newUserData: IUser = {
+            id: userToEdit.id,
+            name: data.name,
+            role: userToEdit.role,
+            address: data.address,
+            city: data.city,
+            phone: userToEdit.phone,
+            email: data.email,
+            username: data.username,
+          };
+          dispatch(updateUser(newUserData));
+          dispatch(closeModal());
+          dispatch(
+            showToast({
+              toastMsg: 'User updated',
+              toastType: ToastTypes.Success,
+            })
+          );
+        } else {
+          // display toast if userToEdit is null
+          dispatch(
+            showToast({
+              toastMsg: 'No User to update',
+              toastType: ToastTypes.Error,
+            })
+          );
+        }
+      } catch (error) {
+        // display toast if error
         dispatch(
-          showToast({ toastMsg: 'User updated', toastType: ToastTypes.Success })
+          showToast({
+            toastMsg: 'An error occured',
+            toastType: ToastTypes.Error,
+          })
         );
       }
-    } catch (error) {
-      console.log('error', error);
+      setIsLoading(false);
+    } else {
+      // Nothing to update: close modal and show toast
+      dispatch(closeModal());
+      dispatch(
+        showToast({
+          toastMsg: 'Nothing to update',
+          toastType: ToastTypes.Notification,
+        })
+      );
     }
-    setIsLoading(false);
   };
 
   return (
