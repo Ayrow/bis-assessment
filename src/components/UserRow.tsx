@@ -9,6 +9,7 @@ const UserRow = (user: IUser) => {
 
   return (
     <>
+      {/* Course data */}
       <div className='grid grid-cols-6 border-b border-gray-400 px-5 py-5 hover:bg-gray-200'>
         <p className='flex items-center'>{id}</p>
         <p className='flex items-center'>{username}</p>

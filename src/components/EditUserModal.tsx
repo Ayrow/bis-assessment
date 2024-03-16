@@ -33,17 +33,16 @@ const EditUserModal = () => {
   });
 
   const areObjectsDifferent = (obj1: IUser, obj2: IUser) => {
-    // Get the keys of both objects
+    // Get the keys for the objects
     const keys = Object.keys(obj1);
 
-    // Iterate through keys and recursively compare values. Return true if a value is different
+    // Iterate through keys and compare values. Return true if a value is different
     for (const key of keys) {
       if (obj1[key as keyof IUser] !== obj2[key as keyof IUser]) {
         return true;
       }
     }
-
-    // If all checks pass, the objects are considered different
+    // If all checks pass, the objects are different
     return false;
   };
 
@@ -261,6 +260,7 @@ const EditUserModal = () => {
                       </div>
                     </div>
                   </div>
+                  {/* Buttons to update or cancel */}
                   <div className='bg-gray px-4 py-3 flex flex-row-reverse gap-4 items-center sm:px-6'>
                     <button
                       type='submit'

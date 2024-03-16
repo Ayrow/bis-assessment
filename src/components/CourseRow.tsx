@@ -6,6 +6,7 @@ const CourseRow = (course: ICourse) => {
   const { passmarks, certificate, classcode, classid, classname, marks } =
     course;
 
+  // Dynamic background color based on passed or failed courses
   const checkIfFailedCourse = () => {
     if (passmarks > marks) {
       return 'bg-red-800 hover:bg-red-700';
@@ -22,6 +23,7 @@ const CourseRow = (course: ICourse) => {
       <p>{classname}</p>
       <p>{passmarks}</p>
       <p>{marks}</p>
+      {/* Display certificate or failed based on mark and passmark */}
       {passmarks > marks ? (
         <p>Failed</p>
       ) : (

@@ -23,12 +23,12 @@ const SingleUser = () => {
   const getUserCourses = async () => {
     setIsFetching(true);
     try {
+      // fetch course based on user id
       const res = await fetch(
         `https://pre.bistrainer.com/v1/index.cfm?action=testapi.courses&id=${id}`
       );
       if (res.ok) {
         const { classes } = await res.json();
-        console.log('classes', classes);
         setUserCourses(classes);
       }
     } catch (error) {
@@ -37,7 +37,7 @@ const SingleUser = () => {
     setIsFetching(false);
   };
 
-  // Handles search input for a class
+  // Handles search input for a course
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
@@ -48,6 +48,7 @@ const SingleUser = () => {
   });
 
   useEffect(() => {
+    // Fetch courses on mount
     getUserCourses();
   }, []);
 
@@ -73,6 +74,7 @@ const SingleUser = () => {
             onChange={handleSearch}
           />
           {searchInput ? (
+            // Button to clear search
             <button
               type='button'
               className='text-red-500'
@@ -84,7 +86,7 @@ const SingleUser = () => {
           )}
         </div>
       </div>
-      {/* Header for the grid */}
+      {/* Header for the table */}
       <div className='grid grid-cols-6 bg-gray-200 font-bold gap-5 p-5'>
         <p>Id</p>
         <p>Classcode</p>
@@ -96,6 +98,7 @@ const SingleUser = () => {
 
       {/* Course list */}
       {isFetching ? (
+        // Skeleton for course row when fetching
         <div className='flex flex-col'>
           <CourseRowSkeleton />
           <CourseRowSkeleton />
@@ -104,12 +107,14 @@ const SingleUser = () => {
           <CourseRowSkeleton />
         </div>
       ) : (
+        // Course list when fetched
         <div className='flex flex-col'>
           {userCourses && filteredCourses && filteredCourses.length > 0 ? (
             filteredCourses?.map((course, index) => {
               return <CourseRow key={index} {...course} />;
             })
           ) : (
+            // No course found
             <p>No course found</p>
           )}
         </div>

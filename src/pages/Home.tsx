@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import UsersList from '../components/UsersList';
 import UserRowSkeleton from '../components/UserRowSkeleton';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/16/solid';
+import { ToastTypes, showToast } from '../features/toast/toastSlice';
 
 const Home = () => {
   const [isFetching, setIsFetching] = useState(false);
@@ -18,20 +19,36 @@ const Home = () => {
   const getAllUsers = async () => {
     setIsFetching(true);
     try {
+      // fetch all users
       const res = await fetch(
         'https://pre.bistrainer.com/v1/index.cfm?action=testapi.users'
       );
       if (res.ok) {
-        console.log('res', res);
+        // users are returned
         const { users }: { users: IUser[] } = await res.json();
         dispatch(setUsers(users));
+      } else {
+        // If res not ok, users not found
+        dispatch(
+          showToast({
+            toastMsg: 'Users not found',
+            toastType: ToastTypes.Error,
+          })
+        );
       }
     } catch (error) {
-      console.log('error', error);
+      // error fetching
+      dispatch(
+        showToast({
+          toastMsg: 'An error occurred',
+          toastType: ToastTypes.Error,
+        })
+      );
     }
     setIsFetching(false);
   };
 
+  // Handles search input for a user
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
@@ -52,6 +69,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!users) {
+      // Fetch users if users state is null
       getAllUsers();
     }
   }, []);
@@ -62,6 +80,7 @@ const Home = () => {
 
       <div>
         <div className='p-10'>
+          {/* TItle */}
           <h1 className='text-2xl my-5 text-center'>Manage users</h1>
 
           {/* input to filter users */}
@@ -74,6 +93,7 @@ const Home = () => {
                 value={searchInput}
                 onChange={handleSearch}
               />
+              {/* Button to clear search */}
               {searchInput ? (
                 <button
                   type='button'

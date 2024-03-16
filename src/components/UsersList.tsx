@@ -18,7 +18,7 @@ const UsersList = ({
   goNextPage,
   goToPageNumber,
 }: IProps) => {
-  const itemsPerPage = 10; // Assuming 10 items per page
+  const itemsPerPage = 10; // Definin 10 items per page
 
   // Filter data based on search input
   const filteredUsers = users.filter((item) => {
@@ -34,25 +34,30 @@ const UsersList = ({
     return nameMatch || emailMatch || usernameMatch;
   });
 
-  // Calculate starting and ending index based on page number
+  // Calculate starting index based on page number
   const startUserIndex = (pageNumber - 1) * itemsPerPage;
+
+  // Calculate starting index based on page number
   const endUserIndex = startUserIndex + itemsPerPage;
 
   // Paginate filtered users based on indexes
-  const paginatedData = filteredUsers.slice(startUserIndex, endUserIndex);
+  const paginatedUsers = filteredUsers.slice(startUserIndex, endUserIndex);
 
   // Calculate total number of pages
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
   return (
     <div>
-      {paginatedData
+      {/* List of users sorted and filtered */}
+      {paginatedUsers
         .sort((a, b) => a.id > b.id)
         ?.map((user) => {
           return <UserRow key={user.id} {...user} />;
         })}
-      {/* Pagination controls */}
+
+      {/* Pagination */}
       <div className=' flex justify-center gap-5 m-5'>
+        {/* Pagination previous */}
         {pageNumber > 1 ? (
           <button
             type='button'
@@ -64,6 +69,7 @@ const UsersList = ({
           // empty space to not move buttons around when disappearing
           <div className='w-20 '></div>
         )}
+        {/* Buttons to select specific page */}
         {totalPages > 1 && (
           <div className='flex gap-2'>
             {Array.from({ length: totalPages }, (_, index) => (
@@ -80,6 +86,7 @@ const UsersList = ({
             ))}
           </div>
         )}
+        {/* Pagination next */}
         {pageNumber < totalPages ? (
           <button
             type='button'
