@@ -56,49 +56,55 @@ const UsersList = ({
         })}
 
       {/* Pagination */}
-      <div className=' flex justify-center gap-5 m-5'>
-        {/* Pagination previous */}
-        {pageNumber > 1 ? (
-          <button
-            type='button'
-            className='bg-orange-500 hover:bg-orange-300 px-2 rounded-lg text-white'
-            onClick={goPreviousPage}>
-            Previous
-          </button>
-        ) : (
-          // empty space to not move buttons around when disappearing
-          <div className='w-20 '></div>
-        )}
-        {/* Buttons to select specific page */}
-        {totalPages > 1 && (
-          <div className='flex gap-2'>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => goToPageNumber(index + 1)}
-                className={`border border-gray-400 px-2 rounded-lg  ${
-                  pageNumber === index + 1
-                    ? 'bg-gray-700 text-white'
-                    : 'hover:bg-gray-200'
-                }`}>
-                {index + 1}
-              </button>
-            ))}
-          </div>
-        )}
-        {/* Pagination next */}
-        {pageNumber < totalPages ? (
-          <button
-            type='button'
-            className='bg-orange-500 hover:bg-orange-300 px-2 rounded-lg text-white'
-            onClick={goNextPage}>
-            Next
-          </button>
-        ) : (
-          // empty space to not move buttons around when disappearing
-          <div className='w-12 '></div>
-        )}
-      </div>
+      {paginatedUsers.length > 1 ? (
+        <div className=' flex justify-center gap-5 m-5'>
+          {/* Pagination previous */}
+          {pageNumber > 1 ? (
+            <button
+              type='button'
+              className='bg-orange-500 hover:bg-orange-300 px-2 rounded-lg text-white'
+              onClick={goPreviousPage}>
+              Previous
+            </button>
+          ) : (
+            // empty space to not move buttons around when disappearing
+            <div className='w-20 '></div>
+          )}
+          {/* Buttons to select specific page */}
+          {totalPages > 1 && (
+            <div className='flex gap-2'>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => goToPageNumber(index + 1)}
+                  className={`border border-gray-400 px-2 rounded-lg  ${
+                    pageNumber === index + 1
+                      ? 'bg-gray-700 text-white'
+                      : 'hover:bg-gray-200'
+                  }`}>
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+          )}
+          {/* Pagination next */}
+          {pageNumber < totalPages ? (
+            <button
+              type='button'
+              className='bg-orange-500 hover:bg-orange-300 px-2 rounded-lg text-white'
+              onClick={goNextPage}>
+              Next
+            </button>
+          ) : (
+            // empty space to not move buttons around when disappearing
+            <div className='w-12 '></div>
+          )}
+        </div>
+      ) : (
+        <div className='flex justify-center py-10 h-72'>
+          <p className='text-lg font-bold'>No user found with this search</p>
+        </div>
+      )}
     </div>
   );
 };

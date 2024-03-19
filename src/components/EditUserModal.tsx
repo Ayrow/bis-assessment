@@ -8,6 +8,7 @@ import { closeModal } from '../features/modal/modalSlice';
 import { useState } from 'react';
 import { IUser, updateUser } from '../features/users/usersSlice';
 import { ToastTypes, showToast } from '../features/toast/toastSlice';
+import { areObjectsDifferent } from '../utils/areObjectsDifferent';
 
 const EditUserModal = () => {
   const { userToEdit, isModalOpen } = useAppSelector((store) => store.modal);
@@ -31,20 +32,6 @@ const EditUserModal = () => {
       role: userToEdit?.role || '',
     },
   });
-
-  const areObjectsDifferent = (obj1: IUser, obj2: IUser) => {
-    // Get the keys for the objects
-    const keys = Object.keys(obj1);
-
-    // Iterate through keys and compare values. Return true if a value is different
-    for (const key of keys) {
-      if (obj1[key as keyof IUser] !== obj2[key as keyof IUser]) {
-        return true;
-      }
-    }
-    // If all checks pass, the objects are different
-    return false;
-  };
 
   const handleUpdateUser = async (data: UserUpdate) => {
     if (userToEdit && areObjectsDifferent(data, userToEdit)) {
@@ -112,7 +99,7 @@ const EditUserModal = () => {
     <Transition.Root show={isModalOpen} as={Fragment}>
       <Dialog
         as='div'
-        className='relative z-20 text-white'
+        className='relative z-20 text-gray-900'
         // initialFocus={cancelButtonRef}
         onClose={() => dispatch(closeModal())}>
         <Transition.Child
@@ -136,21 +123,27 @@ const EditUserModal = () => {
               leave='ease-in duration-200'
               leaveFrom='opacity-100 translate-y-0 sm:scale-100'
               leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'>
-              <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-gray-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
+              <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-gray-900 text-left shadow-xl shadow-gray-900 transition-all sm:my-8 sm:w-full sm:max-w-lg'>
                 <form
                   onSubmit={handleSubmit(handleUpdateUser)}
-                  className=' bg-gray-700 px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
+                  className=' bg-gray-300 px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
                   <div className='sm:flex sm:items-start'>
                     <div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left'>
                       <Dialog.Title
                         as='h3'
-                        className='text-base font-semibold leading-6 text-white'>
-                        Update user: {userToEdit?.username}
+                        className='text-base leading-6 text-gray-900'>
+                        Update user:{' '}
+                        <span className='font-semibold '>
+                          {userToEdit?.username}
+                        </span>
                       </Dialog.Title>
 
                       {/* Input fields */}
-                      <div className='mt-8 py-4'>
-                        <div className='text-red-500'> * Required fields</div>
+                      <div className='mt-5 py-4'>
+                        <div className='text-red-500 text-sm'>
+                          {' '}
+                          * Required fields
+                        </div>
                         {/* Input to update email */}
                         <div className='py-5 relative'>
                           <div className='flex items-center gap-5'>
@@ -160,7 +153,7 @@ const EditUserModal = () => {
 
                             <input
                               {...register('email')}
-                              className='px-2 rounded-lg bg-gray-200 text-black'
+                              className='px-2 rounded-lg bg-gray-200 text-black py-1'
                             />
                           </div>
                           <div className='absolute'>
@@ -182,7 +175,7 @@ const EditUserModal = () => {
 
                             <input
                               {...register('username')}
-                              className='px-2 rounded-lg bg-gray-200 text-black'
+                              className='px-2 rounded-lg bg-gray-200 text-black py-1'
                             />
                           </div>
                           <div className='absolute'>
@@ -206,7 +199,7 @@ const EditUserModal = () => {
 
                             <input
                               {...register('name')}
-                              className='px-2 rounded-lg bg-gray-200 text-black'
+                              className='px-2 rounded-lg bg-gray-200 text-black py-1'
                             />
                           </div>
                           <div className='absolute'>
@@ -226,7 +219,7 @@ const EditUserModal = () => {
 
                             <input
                               {...register('city')}
-                              className='px-2 rounded-lg bg-gray-200 text-black'
+                              className='px-2 rounded-lg bg-gray-200 text-black py-1'
                             />
                           </div>
                           <div className='absolute'>
@@ -246,7 +239,7 @@ const EditUserModal = () => {
 
                             <input
                               {...register('address')}
-                              className='px-2 rounded-lg bg-gray-200 text-black'
+                              className='px-2 rounded-lg bg-gray-200 text-black py-1'
                             />
                           </div>
                           <div className='absolute'>

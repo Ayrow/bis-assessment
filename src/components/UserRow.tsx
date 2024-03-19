@@ -12,10 +12,16 @@ const UserRow = (user: IUser) => {
       {/* Course data */}
       <div className='grid grid-cols-6 border-b border-gray-400 px-5 py-5 hover:bg-gray-200'>
         <p className='flex items-center'>{id}</p>
-        <p className='flex items-center'>{username}</p>
+        <p className='flex items-center'>
+          <Link
+            to={`/user/${id}`}
+            className='text-blue-500 border-b border-b-transparent hover:border-b hover:border-b-blue-500'>
+            {username}
+          </Link>
+        </p>
         <p className='flex items-center'>{name}</p>
         <p className='flex items-center'>{email}</p>
-        <div className='flex flex-col justify-center'>
+        <div className='flex flex-col justify-center '>
           <p className=''>{address}</p>
           <p className=''>{city}</p>
         </div>
@@ -25,10 +31,10 @@ const UserRow = (user: IUser) => {
             type='button'
             onClick={() => dispatch(openModal(user))}
             className='bg-orange-500 hover:bg-orange-300 px-2 py-1 rounded-lg'>
-            Edit User
+            Quick Edit
           </button>
           <Link
-            to={`/user/${id}`}
+            to={`/user/${id}#course-list`}
             className='text-center bg-blue-500 hover:bg-blue-300 px-2 py-1 rounded-lg'>
             View Courses
           </Link>

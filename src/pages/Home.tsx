@@ -50,6 +50,9 @@ const Home = () => {
 
   // Handles search input for a user
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (pageNumber !== 1) {
+      setPageNumber(1);
+    }
     setSearchInput(e.target.value);
   };
 
@@ -79,12 +82,12 @@ const Home = () => {
       {isModalOpen && <EditUserModal />}
 
       <div>
-        <div className='p-10'>
+        {/* Title banner */}
+        <div className='py-7 pl-10 bg-orange-800 flex items-center justify-between'>
           {/* TItle */}
-          <h1 className='text-2xl my-5 text-center'>Manage users</h1>
-
+          <h1 className='text-2xl text-white font-bold'>Manage users</h1>
           {/* input to filter users */}
-          <div className='my-5 flex flex-col gap-2 items-start'>
+          <div className=' flex flex-col gap-2 items-start mr-5'>
             <div className='flex gap-2 items-center'>
               <input
                 type='text'
@@ -97,19 +100,19 @@ const Home = () => {
               {searchInput ? (
                 <button
                   type='button'
-                  className='text-red-500'
+                  className='text-white'
                   onClick={() => setSearchInput('')}>
                   <XMarkIcon className='h-8 w-8' />
                 </button>
               ) : (
-                <MagnifyingGlassIcon className='h-8 w-8' />
+                <MagnifyingGlassIcon className='h-8 w-8 text-white' />
               )}
             </div>
           </div>
         </div>
 
         {/* Header list */}
-        <div className=' grid grid-cols-6 bg-gray-400 border-b-2 border-gray-500 p-5 text-lg'>
+        <div className=' grid grid-cols-6 font-bold bg-gray-200 border-b-2 border-gray-500 p-5 text-lg'>
           <p>Id</p>
           <p>Username</p>
           <p>Name</p>
@@ -140,7 +143,9 @@ const Home = () => {
                 goToPageNumber={goToPageNumber}
               />
             ) : (
-              <p>No user found. Please try a different search</p>
+              <p className='text-gray-900'>
+                No user found. Please try a different search
+              </p>
             )}
           </div>
         )}
